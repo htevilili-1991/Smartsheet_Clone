@@ -1,4 +1,4 @@
-from rest_framework_nested import routers
+from drf_nested_routers import routers
 from .views import (
     SheetViewSet, ColumnViewSet, RowViewSet, CellViewSet,
     DependencyViewSet, AttachmentViewSet, CommentViewSet
