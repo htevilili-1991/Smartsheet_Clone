@@ -33,7 +33,7 @@ This is a full-stack project management application inspired by Smartsheet. It i
 - **Database:** PostgreSQL
 - **Async Tasks:** Celery with Redis
 - **Authentication:** Simple JWT (JSON Web Tokens)
-- **Environment Variables:** django-environ
+- **Environment Variables:** python-dotenv
 
 ### Frontend
 - **Framework:** React 18+
@@ -46,9 +46,6 @@ This is a full-stack project management application inspired by Smartsheet. It i
     - **Gantt View:** react-gantt-timeline / framer-motion (to be added)
     - **Card View:** react-beautiful-dnd (to be added)
     - **Dashboards:** react-grid-layout, Recharts (to be added)
-
-### DevOps
-- **Containerization:** Docker and Docker Compose
 
 ## Project Structure
 
@@ -71,12 +68,9 @@ This is a full-stack project management application inspired by Smartsheet. It i
 |-- pm-frontend/          # React frontend application
 |   |-- src/
 |   |   |-- main.tsx
-|   |-- Dockerfile
 |   |-- package.json
 |   |-- ...
 |-- manage.py
-|-- Dockerfile            # Backend Dockerfile
-|-- docker-compose.yml
 |-- requirements.txt
 |-- README.md
 ```
@@ -127,7 +121,9 @@ The database schema is designed to be flexible and scalable. The main models are
 
 ## Getting Started
 
-To get the project up and running, you will need to have Docker and Docker Compose installed.
+To get the project up and running locally, you will need to have Python, Node.js, PostgreSQL, and Redis installed on your system.
+
+### Backend Setup
 
 1.  **Clone the repository:**
     ```bash
@@ -135,23 +131,63 @@ To get the project up and running, you will need to have Docker and Docker Compo
     cd <repository-name>
     ```
 
-2.  **Build and start the services:**
+2.  **Create and activate a virtual environment:**
     ```bash
-    docker-compose up --build
+    python -m venv venv
+    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
     ```
-    This will build the Docker images for the backend and frontend and start all the services.
 
-3.  **Access the applications:**
-    -   **Backend API:** `http://localhost:8000/api/`
-    -   **Frontend:** `http://localhost:5173`
+3.  **Install backend dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4.  **Set up the database:**
+    - Make sure you have PostgreSQL installed and running.
+    - Create a new database and user for the project.
+    - Create a `.env` file in the root of the project and add the following environment variables:
+      ```
+      SECRET_KEY=your-secret-key
+      DATABASE_URL=postgres://user:password@localhost:5432/your-db-name
+      REDIS_URL=redis://localhost:6379/0
+      ```
+
+5.  **Run database migrations:**
+    ```bash
+    python manage.py migrate
+    ```
+
+6.  **Start the backend server:**
+    ```bash
+    python manage.py runserver
+    ```
+    The backend will be running at `http://localhost:8000`.
+
+### Frontend Setup
+
+1.  **Navigate to the frontend directory:**
+    ```bash
+    cd pm-frontend
+    ```
+
+2.  **Install frontend dependencies:**
+    ```bash
+    npm install
+    ```
+
+3.  **Start the frontend development server:**
+    ```bash
+    npm run dev
+    ```
+    The frontend will be running at `http://localhost:5173`.
 
 ## Backend Configuration
 
-The backend is configured using environment variables. These are stored in the `.env` file in the root of the project.
+The backend is configured using environment variables. These are loaded from a `.env` file in the root of the project using `python-dotenv`.
 
 - `SECRET_KEY`: Django's secret key.
 - `DATABASE_URL`: The URL for the PostgreSQL database.
-- `REDIS_URL`: The URL for the Redis instance.
+- `REDIS_URL`: The URL for the Redis instance used by Celery and Channels.
 
 ## Running Tests
 
