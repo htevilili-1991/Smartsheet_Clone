@@ -1,198 +1,59 @@
-# Smartsheet Clone Project
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-This is a full-stack project management application inspired by Smartsheet. It is built with a Django backend and a React frontend, and it includes features like real-time collaboration, multiple views (Grid, Gantt, Kanban), and dependency tracking.
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-## Features
+## About Laravel
 
-### Core MVP
-- [x] User authentication (registration, login with JWT)
-- [x] Projects/Sheets: Create, edit, share sheets as project plans.
-- [ ] Grid View: Spreadsheet-like editable grid.
-- [ ] Column types: Text, Date, Dropdown, Contact List, Checkbox, Duration.
-- [ ] Hierarchical rows (parent/child tasks).
-- [ ] Attachments/comments per row.
-- [ ] Dependencies: Predecessor column.
-- [ ] Multiple Views per Sheet:
-    - [ ] Gantt View
-    - [ ] Card View (Kanban)
-- [ ] Critical Path Highlighting.
-- [ ] Dashboards with widgets.
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-### Advanced Features
-- [ ] Real-time collaboration for simultaneous editing.
-- [ ] Automation triggers on status change.
-- [ ] Sharing & Publishing sheets and dashboards.
-- [ ] Resource Management basics.
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-## Tech Stack
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-### Backend
-- **Framework:** Django 5.x
-- **API:** Django REST Framework (DRF)
-- **Real-time:** Django Channels with Redis for WebSockets
-- **Database:** PostgreSQL
-- **Async Tasks:** Celery with Redis
-- **Authentication:** Simple JWT (JSON Web Tokens)
-- **Environment Variables:** python-dotenv
+## Learning Laravel
 
-### Frontend
-- **Framework:** React 18+
-- **Build Tool:** Vite
-- **Language:** TypeScript
-- **API Communication:** Axios (to be added)
-- **WebSocket Communication:** socket.io-client (to be added)
-- **UI Components:**
-    - **Grid View:** Handsontable / ag-Grid (to be added)
-    - **Gantt View:** react-gantt-timeline / framer-motion (to be added)
-    - **Card View:** react-beautiful-dnd (to be added)
-    - **Dashboards:** react-grid-layout, Recharts (to be added)
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
 
-## Project Structure
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-```
-/
-|-- project_manager_clone/  # Django project
-|   |-- __init__.py
-|   |-- asgi.py
-|   |-- settings.py
-|   |-- urls.py
-|   |-- wsgi.py
-|-- auth_app/             # Django app for authentication
-|   |-- ...
-|-- core/                 # Django app for core models
-|   |-- ...
-|-- sheets/               # Django app for sheets, rows, columns, etc.
-|   |-- ...
-|-- api/                  # Django app for API routing
-|   |-- urls.py
-|-- pm-frontend/          # React frontend application
-|   |-- src/
-|   |   |-- main.tsx
-|   |-- package.json
-|   |-- ...
-|-- manage.py
-|-- requirements.txt
-|-- README.md
-```
+## Laravel Sponsors
 
-## API Endpoints
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-The API is built with Django REST Framework and provides the following endpoints:
+### Premium Partners
 
-- `POST /api/auth/register/`: Register a new user.
-- `POST /api/auth/token/`: Obtain a JWT token pair (access and refresh).
-- `POST /api/auth/token/refresh/`: Refresh an access token.
-
-### Sheets
-- `GET, POST /api/sheets/`: List all sheets for the user, or create a new sheet.
-- `GET, PUT, PATCH, DELETE /api/sheets/{id}/`: Retrieve, update, or delete a sheet.
-- `POST /api/sheets/{id}/share/`: Share a sheet with other users.
-
-### Columns
-- `GET, POST /api/sheets/{sheet_pk}/columns/`: List all columns for a sheet, or create a new column.
-- `GET, PUT, PATCH, DELETE /api/sheets/{sheet_pk}/columns/{id}/`: Retrieve, update, or delete a column.
-
-### Rows
-- `GET, POST /api/sheets/{sheet_pk}/rows/`: List all rows for a sheet, or create a new row.
-- `GET, PUT, PATCH, DELETE /api/sheets/{sheet_pk}/rows/{id}/`: Retrieve, update, or delete a row.
-
-### Cells
-- `GET, POST /api/sheets/{sheet_pk}/rows/{row_pk}/cells/`: List all cells for a row, or create a new cell.
-- `GET, PUT, PATCH, DELETE /api/sheets/{sheet_pk}/rows/{row_pk}/cells/{id}/`: Retrieve, update, or delete a cell.
-
-## Real-time Collaboration
-
-Real-time collaboration is handled using Django Channels and WebSockets. When a user connects to a sheet, they are added to a group for that sheet. When a change is made to the sheet (e.g., a cell is updated), a message is broadcast to all users in the group, and the frontend updates in real-time.
-
-The WebSocket connection is established at `ws/sheets/{sheet_id}/`.
-
-## Database Schema
-
-The database schema is designed to be flexible and scalable. The main models are:
-
-- **User:** Stores user information.
-- **Sheet:** The main container for a project plan.
-- **Column:** Defines the columns in a sheet, including their type (text, date, etc.).
-- **Row:** Represents a row in a sheet, and can have a parent-child relationship with other rows.
-- **Cell:** Stores the value for a specific row and column.
-- **Dependency:** Defines the relationship between rows (e.g., Finish-to-Start).
-- **Attachment:** Stores files attached to a row.
-- **Comment:** Stores comments made on a row.
-
-## Getting Started
-
-To get the project up and running locally, you will need to have Python, Node.js, PostgreSQL, and Redis installed on your system.
-
-### Backend Setup
-
-1.  **Clone the repository:**
-    ```bash
-    git clone <repository-url>
-    cd <repository-name>
-    ```
-
-2.  **Create and activate a virtual environment:**
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
-    ```
-
-3.  **Install backend dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-4.  **Set up the database:**
-    - Make sure you have PostgreSQL installed and running.
-    - Create a new database and user for the project.
-    - Create a `.env` file in the root of the project and add the following environment variables:
-      ```
-      SECRET_KEY=your-secret-key
-      DATABASE_URL=postgres://user:password@localhost:5432/your-db-name
-      REDIS_URL=redis://localhost:6379/0
-      ```
-
-5.  **Run database migrations:**
-    ```bash
-    python manage.py migrate
-    ```
-
-6.  **Start the backend server:**
-    ```bash
-    python manage.py runserver
-    ```
-    The backend will be running at `http://localhost:8000`.
-
-### Frontend Setup
-
-1.  **Navigate to the frontend directory:**
-    ```bash
-    cd pm-frontend
-    ```
-
-2.  **Install frontend dependencies:**
-    ```bash
-    npm install
-    ```
-
-3.  **Start the frontend development server:**
-    ```bash
-    npm run dev
-    ```
-    The frontend will be running at `http://localhost:5173`.
-
-## Backend Configuration
-
-The backend is configured using environment variables. These are loaded from a `.env` file in the root of the project using `python-dotenv`.
-
-- `SECRET_KEY`: Django's secret key.
-- `DATABASE_URL`: The URL for the PostgreSQL database.
-- `REDIS_URL`: The URL for the Redis instance used by Celery and Channels.
-
-## Running Tests
-
-(Coming soon)
+- **[Vehikl](https://vehikl.com)**
+- **[Tighten Co.](https://tighten.co)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
+- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
+- **[Redberry](https://redberry.international/laravel-development)**
+- **[Active Logic](https://activelogic.com)**
 
 ## Contributing
 
-Contributions are welcome! Please feel free to open an issue or submit a pull request.
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+
+## Code of Conduct
+
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+
+## Security Vulnerabilities
+
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+
+## License
+
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
